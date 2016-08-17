@@ -10,11 +10,12 @@ module.exports = {
 		vendor: [],
 	},
 	output:{
-		path: path.resolve(__dirname,'build'),	
+		path: path.resolve(__dirname,'build'),
 		filename: 'js/[name].[hash]-bundle.js'
 	},
 	resolve: {
-		extensions: ['', '.js', '.jsx']   
+		extensions: ['', '.js', '.jsx'],
+		alias:{}   
 	},
 	module: {
 		loaders: [
@@ -24,12 +25,13 @@ module.exports = {
 			cacheDirectory: true,
 			query: {
 				presets: ['react', 'es2015', 'stage-0'],
-				plugins: ['transform-runtime']
+				plugins: ['transform-runtime','transform-decorators-legacy']
 			},
 			exclude: /node_modules/
 		},		
 		{
 			test: /\.css$/,
+			// loader: 'style!css?modules'
 			loader: ExtractTextPlugin.extract("style-loader", "css-loader")
 		}, 
 		{
@@ -50,14 +52,23 @@ module.exports = {
 		}]
 	},
 	plugins: [
-	new ExtractTextPlugin('css/[name].css'),
+	new ExtractTextPlugin('[name].css'),
 	new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor-[hash].js'),
 	new HtmlWebpackPlugin({
 		template: path.join(__dirname, 'src/template/index.html')
 	}),	
+	new webpack.ProvidePlugin({
+		$: "jquery",
+		jQuery: "jquery",
+		"window.jQuery": "jquery",
+		"window.$": "jquery",
+	})
 	],
 	devServer: {
 		hot: true,
 		noInfo: false,
+		proxy: {
+			"/backend/*": "http://localhost:8000"
+		}
 	}
 };

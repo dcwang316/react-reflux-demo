@@ -1,6 +1,6 @@
 #react-reflux-demo
 
-学习react、reflux的完整项目
+> 学习react、reflux的完整项目
 
 ## demo
 

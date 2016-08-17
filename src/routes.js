@@ -1,11 +1,18 @@
 import React from 'react';
-import {Route} from 'react-router';
+import {Route,Redirect} from 'react-router';
 
 //components
-import App from './components/app';
+import Main from './components/main';
+import Login from './components/login';
+import Dashboard from './components/dashboard';
 
-export default (
-		<Route path="/" component={App}>
-			
+export default (		
+		<Route>
+			<Redirect from="/" to="dashboard"/>	
+			<Route path="/" component={Main}>					
+				<Route path="dashboard" component={Dashboard} />				
+			</Route>
+			<Route path="login" component={Login}></Route>
 		</Route>
+
 	)
